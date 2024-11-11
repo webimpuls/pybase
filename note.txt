@@ -1,0 +1,22 @@
+
+Создание environment
+linux: python3 -m venv .venv
+windows: py -3 -m venv .venv
+
+Активация environment
+linux: $ . .venv/bin/activate
+windows: > .venv\Scripts\activate
+
+Запуск сервера:
+flask --app server run
+
+Доступ:
+http://localhost:5000
+
+Установка базы данных (если файл database.db в корне отсутствует)
+py inst_dp.py
+
+
+
+
+

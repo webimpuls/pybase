@@ -1,0 +1,81 @@
+{% extends "template-main.html" %}
+{% block content %}
+
+<div class="s-area">
+    Вы вошли как: {{ current_user.username }}
+</div>
+
+<div class="s-area">
+    Права:<br>
+    C: {{ op_c }}<br>
+    R: {{ op_r }}<br>
+    U: {{ op_u }}<br>
+    D: {{ op_d }}
+</div>
+
+<div class="s-area">
+    <p a>Создание пользователя</p>
+    {% if op_c %}
+    <form action="/main" method="POST">
+        <input type="hidden" name="op" value="create">
+        Пользователь:<br>
+        <input type="text" value="" id="username" name="username"></input><br>
+        Пароль:<br>
+        <input type="text" value="" id="password" name="password"></input><br>
+        <br>
+        <input type="submit" value="Создать"></input>
+    </form>
+    {% endif %}
+    {% if not op_c %}
+    <p>Нет права</p>
+    {% endif %}
+</div>
+
+<div class="s-area">
+<table>
+<tr>
+    <td>ID#</td>
+    <td>Логин</td>
+    <td>Пароль</td>
+    {% if op_u %}<td>Редактирование</td>{% endif %}
+    {% if op_d %}<td>Удаление</td>{% endif %}
+</tr>
+{% for item in list %}
+<tr id="item_{{ item[0] }}">
+    <td>{{ item[0] }}</td>
+    <td><div id="item_{{ item[0] }}_name_tx">{{ item[1] }}</div><input type="text" id="item_{{ item[0] }}_name_ed" value="{{ item[1] }}" style="display: none;" /></td>
+    <td><div id="item_{{ item[0] }}_pass_tx">{{ item[2] }}</div><input type="text" id="item_{{ item[0] }}_pass_ed" value="{{ item[2] }}" style="display: none;" /></td>
+    {% if op_u %}
+    <td>
+        <!-- Вариант 1: редактирование прямо в таблице
+        <input type="button" value="Редактировать" onclick="document.getElementById('item_{{ item[0] }}_name_tx').style.display='none'; document.getElementById('item_{{ item[0] }}_name_ed').style.display='inline-block'; document.getElementById('item_{{ item[0] }}_pass_tx').style.display='none'; document.getElementById('item_{{ item[0] }}_pass_ed').style.display='inline-block';">
+        -->
+        <!-- Вариант 2: Редактирование в всплывающей форме -->
+        <input type="button" value="Редактировать" onclick="document.getElementById('pw').style.display='flex'; document.getElementById('ed_id').value = '{{ item[0] }}'; document.getElementById('ed_name').value = '{{ item[1] }}'; document.getElementById('ed_pass').value = '{{ item[2] }}';">
+    </td>
+    {% endif %}
+    {% if op_d %}
+    <td>
+        <form action="/main" method="POST"><input type="hidden" name="op" value="delete"><input type="hidden" name="id" value="{{ item[0] }}"><input type="submit" value="Удалить" /></form>
+    </td>
+    {% endif %}
+</tr>
+{% endfor %}
+</div>
+</table>
+<div id="pw" style="position: absolute; display:none; top: 0; left: 0; width: 100%; height: 100%; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.2);">
+    <div style="background-color: #fff; border: 1px solid #888; box-shadow: 1px 1px 5px #ddd; padding: 20px 40px;">
+        <form action="/main" method="POST">
+            <p>Редактирование</p>
+            <input type="hidden" name="op" value="update">
+            <input type="hidden" id="ed_id" name="id" value="">
+            Логин:<br>
+            <input type="text" id="ed_name" name="username" value=""><br>
+            Пароль:<br>
+            <input type="text" id="ed_pass" name="password" value=""><br>
+            <br>
+            <input type="submit" value="Сохранить">
+        </form>
+    </div>
+</div>
+{% endblock %}

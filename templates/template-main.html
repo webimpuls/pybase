@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+    <style>
+        .s-area {
+            margin: 5px;
+            padding: 10px 20px;
+            border: 1px solid #888;
+        }
+        table {
+            font-size: 12px;
+            font-family: verdana;
+            border-collapse: collapse;            
+        }
+        tr:nth-child(odd) {
+            background-color: #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #fff;
+        }
+        td {
+            padding: 3px 10px;
+        }
+        .button {
+            padding: 2px 5px;
+            color: #000;
+            background-color: #eee;
+            border: 1px solid #888;
+            border-radius: 2px;
+            box-shadow: 1px 1px #ccc;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            text-decoration: none;
+            line-height: 0;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="s-area">
+        {% if current_user.is_authenticated %}
+            <a href="/" class="button">Главная</a>
+            <a href="/exit" class="button">Выход</a>
+        {% endif %}
+        {% if not current_user.is_authenticated %}
+            <a href="/auth" class="button">Авторизация</a>
+            <a href="/join" class="button">Регистрация</a>
+        {% endif %}
+    </div>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "template-main.html" %}
+{% block content %}
+<div class="f-auth">
+    <div class="s-area">Форма входа пользователя</div>
+    <form action="/auth" method="POST" class="s-area">
+        <div class="" style="margin-bottom:5px;">
+            Логин:<br>
+            <input type="text" class="c-field" id="username" name="username" value="">
+        </div>
+        <div class="" style="margin-bottom:10px;">
+            Пароль:<br>
+            <input type="password" class="c-field" id="password" name="password" value="">
+        </div>
+        <div class="">
+            <input type="submit" class="c-field" value="Войти">
+        </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: red">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </form>
+</div>
+{% endblock %}
